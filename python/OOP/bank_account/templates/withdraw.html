@@ -1,0 +1,72 @@
+<!-- withdraw.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/style.css">
+    <title>Withdraw</title>
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Withdrawal</h2>
+        <form action="/withdraw?user_id={{ user.id }}" method="post" id="withdrawForm">
+            <input type="hidden" name="selected_account" id="selectedAccount">
+            <input type="hidden" name="withdrawal_amount" id="withdrawalAmount">
+        <!-- Choose Account Section -->
+        <div class="row">
+            <form class="col-md-8 offset-md-2">
+                <div class="card text-center border-dark mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Choose Account</h5>
+                        <button id="checkingBtn" onclick="selectAccount('checking')" class="btn btn-primary account-btn">Checking - {{ user.checking_account.balance }}.00</button>
+                        <button id="savingsBtn" onclick="selectAccount('savings')" class="btn btn-primary account-btn">Savings -{{ user.savings_account.balance }}.00 </button>
+
+
+                    </div>
+                </div>
+
+        <!-- Withdrawal Options Section -->
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card text-center border-dark mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Withdrawal Options</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <a href="#" id="withdrawBtn10" class="btn btn-primary btn-block">Withdraw $10</a>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <a href="#" id="withdrawBtn20" class="btn btn-primary btn-block">Withdraw $20</a>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <a href="#" id="withdrawBtn50" class="btn btn-primary btn-block">Withdraw $50</a>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <a href="#" id="withdrawBtn100" class="btn btn-primary btn-block">Withdraw $100</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+        <!-- ... (your existing HTML) ... -->
+
+        <div class="text-center">
+            <!-- Link to navigate back to the dashboard -->
+            <a href="{{ url_for('dashboard', user_id=user.id) }}" class="btn btn-danger">Back to Dashboard</a>
+        </div>
+    </div>
+
+    <!-- <script src="static/style.js"></script> -->
+    <!-- <script src="path/to/your/script.js"></script> -->
+    <script src="{{ url_for('static', filename='style.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
