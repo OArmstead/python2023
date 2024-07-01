@@ -6,4 +6,5 @@ from bank_account.controllers import users_controller
 
 
 if __name__=='__main__':
+    print("Starting Flask application...")
     app.run(debug=True)

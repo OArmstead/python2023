@@ -10,7 +10,7 @@
 </head>
 
 <body class="bg-light">
-    <div class="container mt-5">
+    <!-- <div class="container mt-5">
         <h2 class="text-center mb-4">Account Balances</h2>
         <div class="row">
             <div class="col-md-6 offset-md-3">
@@ -33,12 +33,21 @@
             </div>
         </div>
         <div class="text-center">
-            <!-- <a href="/dashboard/{{user_id}}" class="btn btn-primary">Back to Dashboard</a> -->
-            <a href="/dashboard" class="btn btn-primary">Go to Dashboard</a>
+            <a href="/dashboard/{{user_id}}" class="btn btn-primary">Back to Dashboard</a> -->
+            <!-- <a href="/dashboard" class="btn btn-primary">Go to Dashboard</a>
         </div>
+    </div> -->
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Withdraw from {{ selected_account.capitalize() }} Account</h2>
+        <form method="POST" action="{{ url_for('withdraw_options', selected_account=selected_account) }}">
+            <div class="form-group mb-3">
+                <label for="amount" class="form-label">Withdrawal Amount:</label>
+                <input type="number" class="form-control" id="amount" name="withdrawal_amount" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Withdraw</button>
+        </form>
     </div>
-
-
 
 
 
