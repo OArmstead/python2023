@@ -18,17 +18,6 @@ def show_balances(user_id):
 
 
 
-# @app.route("/withdraw")
-# def withdraw():
-#     user_id = request.args.get('user_id')
-#     user = get_user_by_id(user_id)
-
-#     if user:
-#         return render_template("withdraw.html", user=user)
-#     else:
-#         flash('User ID is required', 'error')
-#         return redirect(url_for("dashboard", user_id=user_id))
-
 
 #____________newly added____________________________________________#
 
@@ -37,7 +26,6 @@ def show_balances(user_id):
 def select_withdraw_account():
     if 'user_id' not in session:
         return redirect(url_for('index'))
-    
     user_id = session['user_id']
     user = get_user_by_id(user_id)
 
@@ -57,28 +45,6 @@ def select_withdraw_account():
         return redirect(url_for("index"))
 
 
-
-
-
-
-
-# @app.route('/withdraw_options', methods=['GET', 'POST'])
-# def withdraw_options():
-#     user_id = request.form.get('user_id')
-#     selected_account = request.form.get('selected_account')
-#     user = get_user_by_id(user_id)
-
-#     if request.method == 'POST':
-#         withdrawal_amount = request.form.get('withdrawal_amount')
-#         # Process withdrawal based on the selected account and amount
-#         # You need to implement the logic for withdrawal here
-#         # ...
-
-#     if user:
-#         return render_template("withdraw_options.html", user=user, selected_account=selected_account)
-#     else:
-#         flash('User ID is required', 'error')
-#         return redirect(url_for("index"))
 
 @app.route('/withdraw_options', methods=['GET', 'POST'])
 def withdraw_options():
