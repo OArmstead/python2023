@@ -1,4 +1,12 @@
 
+.card-select:hover {
+    cursor: pointer;
+    background-color: #f8f9fa;
+}
+.card-selected {
+    background-color: #e9ecef;
+}
+
 
 
 

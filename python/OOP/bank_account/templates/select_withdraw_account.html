@@ -11,24 +11,36 @@
 </head>
 <body class="bg-light">
     <div class="container mt-5">
-        <h2 class="text-center mb-4">
-            Withdraw from {% if selected_account %}{{ selected_account.capitalize() }}{% else %}Account{% endif %}
-        </h2>
-        <form method="POST" action="{{ url_for('select_withdraw_account')}}">
-            <div class="form-group">
-                <label for="selected_account">Select Account:</label>
-                <select class="form-control" id="selected_account" name="selected_account" required>
-                    <option value="checking">Checking Account</option>
-                    <option value="savings">Savings Account</option>
-                </select>
+        <h2 class="text-center mb-4">Withdraw from Account</h2>
+        <form id="selectAccountForm" action="/process_withdraw_account" method="POST">
+            <input type="hidden" name="selected_account" id="selected_account">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="card text-center border-dark mb-4 card-select" onclick="selectAccount('checking')">
+                        <div class="card-body">
+                            <h5 class="card-title">Checking Account</h5>
+                            <p class="card-text">{{ user.checking_account.balance }}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="d-flex align-items-center mt-3">
-                <button type="submit" class="btn btn-primary me-2">Continue</button>
-                <a href="dashboard" class="btn btn-danger">Back</a>
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="card text-center border-dark mb-4 card-select" onclick="selectAccount('savings')">
+                        <div class="card-body">
+                            <h5 class="card-title">Savings Account</h5>
+                            <p class="card-text">{{ user.savings_account.balance }}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            </form>
-        
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary mt-3">Continue</button>
+                <a href="/dashboard" class="btn btn-danger mt-3">Cancel</a>
+            </div>
+        </form>
     </div>
+
 
     <script src="{{ url_for('static', filename='style.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

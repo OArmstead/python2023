@@ -77,3 +77,12 @@ function resetButtonStyles() {
         buttons[i].classList.remove('selected');
     }
 }
+
+function selectAccount(accountType) {
+    document.getElementById('selected_account').value = accountType;
+    var cards = document.querySelectorAll('.card-select');
+    cards.forEach(function(card) {
+        card.classList.remove('card-selected');
+    });
+    document.querySelector('.card-select[onclick="selectAccount(\'' + accountType + '\')"]').classList.add('card-selected');
+}
