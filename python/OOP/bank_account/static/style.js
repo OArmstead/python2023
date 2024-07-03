@@ -78,11 +78,23 @@ function resetButtonStyles() {
     }
 }
 
+
+// function selectAccount(accountType) {
+//     var selectedAccount = document.getElementById('selected_account');
+//     selectedAccount.value = accountType;
+//     var cards = document.querySelectorAll('.card-select');
+//     cards.forEach(function(card) {
+//         card.classList.remove('card-selected');
+//     });
+//     document.querySelector('.card-select[onclick="selectAccount(\'' + accountType + '\')"]').classList.add('card-selected');
+//     // Redirect to withdraw options page
+//     window.location.href = '/withdraw_options?selected_account=' + accountType;
+// }
+
+function redirectToWithdrawOptions(accountType) {
+    window.location.href = `/withdraw_options?selected_account=${accountType}`;
+}
+
 function selectAccount(accountType) {
-    document.getElementById('selected_account').value = accountType;
-    var cards = document.querySelectorAll('.card-select');
-    cards.forEach(function(card) {
-        card.classList.remove('card-selected');
-    });
-    document.querySelector('.card-select[onclick="selectAccount(\'' + accountType + '\')"]').classList.add('card-selected');
+    window.location.href = `/withdraw_options?selected_account=${accountType}`;
 }
