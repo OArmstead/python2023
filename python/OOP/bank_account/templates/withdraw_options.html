@@ -39,17 +39,37 @@
     </div> -->
 
     <div class="container mt-5">
-        <h2 class="text-center mb-4">Withdraw from {{ selected_account.capitalize() }} Account</h2>
-        <form method="POST" action="{{ url_for('withdraw_options', selected_account=selected_account) }}">
-            <div class="form-group mb-3">
-                <label for="amount" class="form-label">Withdrawal Amount:</label>
-                <input type="number" class="form-control" id="amount" name="withdrawal_amount" required>
+        <h2 class="text-center mb-4">Enter Withdrawal Amount</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <input type="text" id="amountInput" class="form-control mb-3" placeholder="Enter Amount" readonly>
+                <div class="keypad">
+                    <div class="row">
+                        <button class="btn btn-primary col m-1" onclick="appendNumber(1)">1</button>
+                        <button class="btn btn-primary col m-1" onclick="appendNumber(2)">2</button>
+                        <button class="btn btn-primary col m-1" onclick="appendNumber(3)">3</button>
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-primary col m-1" onclick="appendNumber(4)">4</button>
+                        <button class="btn btn-primary col m-1" onclick="appendNumber(5)">5</button>
+                        <button class="btn btn-primary col m-1" onclick="appendNumber(6)">6</button>
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-primary col m-1" onclick="appendNumber(7)">7</button>
+                        <button class="btn btn-primary col m-1" onclick="appendNumber(8)">8</button>
+                        <button class="btn btn-primary col m-1" onclick="appendNumber(9)">9</button>
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-danger col m-1" onclick="clearInput()">C</button>
+                        <button class="btn btn-primary col m-1" onclick="appendNumber(0)">0</button>
+                        <button class="btn btn-success col m-1" onclick="submitAmount()">Enter</button>
+                    </div>
+                </div>
             </div>
-            <div class="d-flex align-items-center mt-3">
-                <button type="submit" class="btn btn-primary me-2">withdrawal</button>
-                <a href="dashboard" class="btn btn-danger">Back</a>
-            </div>
-        </form>
+        </div>
+        <div class="text-center mt-3">
+            <a href="/dashboard" class="btn btn-danger">Back</a>
+        </div>
     </div>
 
 
