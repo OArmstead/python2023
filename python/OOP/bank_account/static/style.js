@@ -98,3 +98,25 @@ function redirectToWithdrawOptions(accountType) {
 function selectAccount(accountType) {
     window.location.href = `/withdraw_options?selected_account=${accountType}`;
 }
+
+function appendNumber(number) {
+    var amountInput = document.getElementById('amountInput');
+    amountInput.value = amountInput.value + number;
+}
+
+function clearInput() {
+    var amountInput = document.getElementById('amountInput');
+    amountInput.value = '';
+}
+
+function submitAmount() {
+    var amountInput = document.getElementById('amountInput').value;
+    if (amountInput) {
+        // You can add your logic to handle the submitted amount here
+        alert('You entered: ' + amountInput);
+        // Example: Redirect to another page or send data to the server
+        // window.location.href = '/process_withdraw?amount=' + amountInput;
+    } else {
+        alert('Please enter an amount.');
+    }
+}
