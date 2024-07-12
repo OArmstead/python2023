@@ -19,12 +19,14 @@ def get_user_by_id(user_id):
     return users.get(user_id)
 
 
+
 @app.route('/')
 def index():
     user_id ='1'
     user = get_user_by_id(user_id)
     # return redirect(url_for('dashboard', user_id=user_id))
     return render_template("index.html", user=user)
+
 
 
 @app.route('/enter_pin', methods=['POST'])
@@ -63,6 +65,11 @@ def dashboard():
 
 
 
+# Clear the session
+@app.route('/clear')
+def logout():
+    session.clear()
+    return redirect('/')
 
 
 
