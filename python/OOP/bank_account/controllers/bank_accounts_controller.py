@@ -2,6 +2,7 @@ from bank_account import app
 from flask import request, render_template, redirect, url_for,flash,session,jsonify
 from bank_account.models.user_model import User
 from bank_account.models.bank_account_model import BankAccount
+from datetime import datetime
 # imported the get_user_by_id method directly from the users controller
 from .users_controller import get_user_by_id
 
@@ -97,11 +98,20 @@ def api_process_withdraw():
         return jsonify({'error': 'Insufficient funds'}), 400
 
     account.withdraw(amount)
-    return jsonify({'message': 'Withdrawal successful', 'amount': amount})
+    return jsonify({'message': 'Withdrawal successful', 'new_balance': account.balance, 'amount': amount})
+
+
+# @app.route('/confirmation', methods=['GET'])
+# def confirmation():
+#     amount = request.args.get('amount')
+#     return render_template('confirmation.html', amount=amount)
+
 
 @app.route('/confirmation', methods=['GET'])
 def confirmation():
     amount = request.args.get('amount')
-    return render_template('confirmation.html', amount=amount)
-
-
+    account_type = request.args.get('account_type')
+    new_balance = request.args.get('new_balance')  # Assuming this is passed in the query string
+    transaction_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    return render_template('confirmation.html', amount=amount, account_type=account_type, new_balance=new_balance, transaction_date=transaction_date)

@@ -87,15 +87,33 @@ function submitAmount() {
 }
 
 function withdraw(amount) {
-    showLoadingModal();
+    const accountType = 'checking'; // or 'savings', dynamically set this based on the user's selection
 
-    setTimeout(function() {
-        var loadingModalElement = document.getElementById('loadingModal');
-        var modalInstance = bootstrap.Modal.getInstance(loadingModalElement);
-        modalInstance.hide();
-
-        window.location.href = '/confirmation?amount=' + amount;
-    }, 3000);
+    fetch('/api/process_withdraw', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            account_type: accountType,
+            amount: amount
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            showLoadingModal();
+            setTimeout(function() {
+                hideLoadingModal();
+                window.location.href = `/confirmation?amount=${amount}&account_type=${accountType}&new_balance=${data.new_balance}`;
+            }, 3000); // Simulate a delay of 3 seconds
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 function showLoadingModal() {
@@ -105,6 +123,12 @@ function showLoadingModal() {
     });
     loadingModalElement.show();
 }
+
+function hideLoadingModal() {
+    var loadingModalElement = bootstrap.Modal.getInstance(document.getElementById('loadingModal'));
+    loadingModalElement.hide();
+}
+
 
 window.appendNumber = appendNumber;
 window.clearInput = clearInput;
