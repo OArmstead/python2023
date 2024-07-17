@@ -23,27 +23,7 @@ def show_balances(user_id):
 #____________newly added____________________________________________#
 
 
-# @app.route("/select_withdraw_account", methods=['GET', 'POST'])
-# def select_withdraw_account():
-#     if 'user_id' not in session:
-#         return redirect(url_for('index'))
-#     user_id = session['user_id']
-#     user = get_user_by_id(user_id)
 
-#     if request.method == 'POST':
-#         selected_account = request.form.get('selected_account')
-#         if selected_account is None:
-#             # Handle the case where selected_account is None
-#             return redirect(url_for('index'))  # Redirect or handle error
-#         return redirect(url_for('withdraw_options', selected_account=selected_account))
-
-#     if user:
-#         # Pass a default value for selected_account if None
-#         selected_account = request.args.get('selected_account', default='checking')
-#         return render_template("select_withdraw_account.html", user=user, user_id=user_id, selected_account=selected_account)
-#     else:
-#         flash('User ID is required', 'error')
-#         return redirect(url_for("index"))
 
 
 @app.route("/select_withdraw_account", methods=['GET', 'POST'])
@@ -115,3 +95,45 @@ def confirmation():
     transaction_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     return render_template('confirmation.html', amount=amount, account_type=account_type, new_balance=new_balance, transaction_date=transaction_date)
+
+@app.route('/transfer')
+def transfer():
+    user_id = session.get('user_id')
+    if not user_id:
+        flash('User ID is required', 'error')
+        return redirect(url_for("index"))
+
+    user = get_user_by_id(user_id)
+    if not user:
+        flash('User not found', 'error')
+        return redirect(url_for("index"))
+
+    return render_template('transfer.html', user=user, user_id=user_id)
+
+
+
+@app.route('/api/process_transfer', methods=['POST'])
+def api_process_transfer():
+    if 'user_id' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    user_id = session['user_id']
+    data = request.json
+    from_account_type = data.get('from_account')
+    to_account_type = data.get('to_account')
+    amount = float(data.get('amount'))
+
+    user = get_user_by_id(user_id)
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+
+    from_account = user.checking_account if from_account_type == 'checking' else user.savings_account
+    to_account = user.savings_account if to_account_type == 'savings' else user.checking_account
+
+    if from_account.balance < amount:
+        return jsonify({'error': 'Insufficient funds'}), 400
+
+    from_account.withdraw(amount)
+    to_account.deposit(amount)
+
+    return jsonify({'message': 'Transfer successful', 'new_balance': to_account.balance})

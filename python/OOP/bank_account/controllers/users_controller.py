@@ -16,6 +16,8 @@ users ={
 
 
 def get_user_by_id(user_id):
+    # This function will retrieve the user object based on user_id
+    # this should work with the dummy dictionary of users and when I make the database
     return users.get(user_id)
 
 

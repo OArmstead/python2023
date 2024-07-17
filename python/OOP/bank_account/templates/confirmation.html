@@ -2,11 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="{{ url_for('static', filename='style.js') }}"></script>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Confirmation</title>
 </head>
 <body class="bg-light">
@@ -17,36 +14,16 @@
                     <div class="card-header text-center">
                         <h3>Transaction Confirmation</h3>
                     </div>
-                    <div class="card-body">
-                        <p class="lead text-center">Your transaction was successful!</p>
-                        <div class="row justify-content-center">
-                            <div class="col-md-6">
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        <strong>Amount Withdrawn:</strong> ${{ amount }}
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Account Type:</strong> {{ account_type }}
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>New Balance:</strong> ${{ new_balance }}
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Transaction Date:</strong> {{ transaction_date }}
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="text-center mt-4">
-                            <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
-                        </div>
+                    <div class="card-body text-center">
+                        <p>Transaction Amount: ${{ amount }}</p>
+                        <p>Account Type: {{ account_type }}</p>
+                        <p>New Balance: ${{ new_balance }}</p>
+                        <p>Transaction Date: {{ transaction_date }}</p>
+                        <a href="{{ url_for('dashboard', user_id=session['user_id']) }}" class="btn btn-primary">Back to Dashboard</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -29,6 +29,10 @@ document.addEventListener("DOMContentLoaded", function() {
             withdrawForm.submit();
         });
     });
+    
+    if (clearButton) {
+        clearButton.addEventListener('click', clearInput);
+    }
 });
 
 function withdrawFrom(accountType, userId) {
@@ -62,7 +66,9 @@ function resetButtonStyles() {
 
 function clearInput() {
     var amountInput = document.getElementById('amount');
-    amountInput.value = '';
+    if (amountInput) {
+        amountInput.value = '';
+    }
 }
 
 function appendNumber(number) {
@@ -116,6 +122,56 @@ function withdraw(amount) {
     });
 }
 
+function submitTransfer() {
+    var amountInput = document.getElementById('amount').value;
+    var fromAccount = document.getElementById('fromAccount').value;
+    var toAccount = document.getElementById('toAccount').value;
+    var userId = document.getElementById('user_id').value;
+
+    if (!amountInput) {
+        alert('Please enter an amount.');
+        return;
+    }
+
+    if (parseInt(amountInput) % 5 !== 0) {
+        alert('Please enter an amount in denominations of 5, 10, 20, or 100.');
+        clearInput();
+        return;
+    }
+
+    transferFunds(amountInput, fromAccount, toAccount, userId);
+}
+
+function transferFunds(amount, fromAccount, toAccount, userId) {
+    fetch('/api/process_transfer', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            from_account: fromAccount,
+            to_account: toAccount,
+            amount: amount,
+            user_id: userId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            showLoadingModal();
+            setTimeout(function() {
+                hideLoadingModal();
+                window.location.href = `/confirmation?amount=${amount}&from_account=${fromAccount}&to_account=${toAccount}&new_balance=${data.new_balance}`;
+            }, 3000); // Simulate a delay of 3 seconds
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
 function showLoadingModal() {
     var loadingModalElement = new bootstrap.Modal(document.getElementById('loadingModal'), {
         backdrop: 'static',
@@ -129,8 +185,10 @@ function hideLoadingModal() {
     loadingModalElement.hide();
 }
 
-
 window.appendNumber = appendNumber;
 window.clearInput = clearInput;
 window.submitAmount = submitAmount;
-window.withdraw = withdraw;
+window.submitTransfer = submitTransfer;
+window.transferFunds = transferFunds;
+window.showLoadingModal = showLoadingModal;
+window.hideLoadingModal = hideLoadingModal;
