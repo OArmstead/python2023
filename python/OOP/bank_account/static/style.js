@@ -122,24 +122,43 @@ function withdraw(amount) {
     });
 }
 
-function submitTransfer() {
-    var amountInput = document.getElementById('amount').value;
-    var fromAccount = document.getElementById('fromAccount').value;
-    var toAccount = document.getElementById('toAccount').value;
-    var userId = document.getElementById('user_id').value;
+// function submitTransfer() {
+//     var amountInput = document.getElementById('amount').value;
+//     var fromAccount = document.getElementById('fromAccount').value;
+//     var toAccount = document.getElementById('toAccount').value;
+//     var userId = document.getElementById('user_id').value;
 
-    if (!amountInput) {
+//     if (!amountInput) {
+//         alert('Please enter an amount.');
+//         return;
+//     }
+
+//     if (parseInt(amountInput) % 5 !== 0) {
+//         alert('Please enter an amount in denominations of 5, 10, 20, or 100.');
+//         clearInput();
+//         return;
+//     }
+
+//     transferFunds(amountInput, fromAccount, toAccount, userId);
+// }
+
+// Function to submit the transfer form
+function submitTransfer() {
+    let fromAccount = document.getElementById('fromAccount').value;
+    let toAccount = document.getElementById('toAccount').value;
+    let amount = document.getElementById('amount').value;
+
+    if (amount === '') {
         alert('Please enter an amount.');
         return;
     }
 
-    if (parseInt(amountInput) % 5 !== 0) {
-        alert('Please enter an amount in denominations of 5, 10, 20, or 100.');
-        clearInput();
-        return;
-    }
+    document.getElementById('confirmAmount').innerText = `$${amount}`;
+    document.getElementById('confirmFromAccount').innerText = fromAccount;
+    document.getElementById('confirmToAccount').innerText = toAccount;
 
-    transferFunds(amountInput, fromAccount, toAccount, userId);
+    let confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+    confirmationModal.show();
 }
 
 function transferFunds(amount, fromAccount, toAccount, userId) {
@@ -184,6 +203,48 @@ function hideLoadingModal() {
     var loadingModalElement = bootstrap.Modal.getInstance(document.getElementById('loadingModal'));
     loadingModalElement.hide();
 }
+
+
+// Function to confirm and process the transfer
+function confirmTransfer() {
+    let user_id = document.getElementById('user_id').value;
+    let fromAccount = document.getElementById('fromAccount').value;
+    let toAccount = document.getElementById('toAccount').value;
+    let amount = document.getElementById('amount').value;
+
+    let transferData = {
+        user_id: user_id,
+        from_account: fromAccount,
+        to_account: toAccount,
+        amount: amount
+    };
+
+    fetch('/api/process_transfer', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(transferData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            alert(data.message);
+            // Redirect to the confirmation page with transfer details
+            window.location.href = `/confirmation?amount=${data.amount}&account_type=${data.from_account}&new_balance=${data.new_balance}&transaction_date=${data.transaction_date}`;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while processing the transfer.');
+    });
+}
+
+
+
+
 
 window.appendNumber = appendNumber;
 window.clearInput = clearInput;
